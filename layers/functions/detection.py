@@ -28,7 +28,7 @@ class Detect(object):
         
         self.use_cross_class_nms = False
         self.use_fast_nms = False
-        self.use_soft_nms = False
+        self.use_soft_nms = True
 
     def __call__(self, predictions, net):
         """
