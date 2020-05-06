@@ -28,6 +28,7 @@ class Detect(object):
         
         self.use_cross_class_nms = False
         self.use_fast_nms = False
+        self.use_soft_nms = False
 
     def __call__(self, predictions, net):
         """
@@ -94,7 +95,9 @@ class Detect(object):
         if scores.size(1) == 0:
             return None
         
-        if self.use_fast_nms:
+        if self.use_soft_nms:
+            boxes, masks, classes, scores = self.cpu_soft_nms(boxes, masks, scores, self.nms_thresh, self.conf_thresh)
+        else if self.use_fast_nms:
             if self.use_cross_class_nms:
                 boxes, masks, classes, scores = self.cc_fast_nms(boxes, masks, scores, self.nms_thresh, self.top_k)
             else:
